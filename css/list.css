@@ -1,0 +1,84 @@
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    min-width: 1280px;
+    padding: 24px;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    width: 800px;
+}
+
+.chat {
+    display: block;
+    padding: 16px 12px;
+    width: 180px;
+    margin-right: 20px;
+    margin-bottom: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all .3s;
+    text-decoration: none;
+    color: #000;
+}
+
+.chat:hover {
+    transform: translateY(-2px);
+}
+
+.chat:nth-child(4n) {
+    margin-right: 0;
+}
+
+.chat .chat-id {
+    font-size: 12px;
+    line-height: 16px;
+    color: #999;
+    margin-bottom: 16px;
+}
+
+.chat-line {
+    border-style: dashed;
+}
+
+.chat-line .plus {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    color: #bbb;
+    margin: 0 auto;
+}
+
+.chat-line .plus::after {
+    position: absolute;
+    left: 50%;
+    margin-left: -2px;
+    content: '';
+    height: 100%;
+    width: 4px;
+    border-radius: 2px;
+    background-color: currentColor;
+}
+
+.chat-line .plus::before {
+    position: absolute;
+    top: 50%;
+    margin-top: -2px;
+    content: '';
+    width: 100%;
+    height: 4px;
+    border-radius: 2px;
+    background-color: currentColor;
+}

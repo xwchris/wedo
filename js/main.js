@@ -7,7 +7,7 @@
     const channel = new BroadcastChannel(chatId);
     console.log('channel build, chatId:', chatId, 'userId:', userId);
     let messages = [];
-    const defaultUser = { userId, name: '未命名', avatar: './images/avatar.jpg', bg: '' };
+    const defaultUser = { userId, name: '此人是无名氏', avatar: './images/avatar.jpg', bg: '' };
     let users = {};
     let user = {};
 
