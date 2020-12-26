@@ -15,33 +15,33 @@ html, body {
     width: 100%;
 }
 
-.operate {
-    position: absolute;
-    left: 0;
+.file {
+    display: none;
+}
+
+.menu {
+    position: fixed;
     top: 0;
-    padding: 20px;
-}
-
-.operate.hidden {
-    visibility: hidden;
-}
-
-.operate .button {
-    display: block;
-    margin-bottom: 12px;
-    padding: 0;
+    left: 0;
+    display: none;
+    width: 100px;
     background-color: white;
-    border: 0;
+    border-radius: 4px;
+    overflow: hidden;
+    padding: 6px 0;
+    box-shadow: 2px 2px 4px #ddd;
+}
+
+.menu .menu-item {
     font-size: 14px;
-    line-height: 24px;
-    height: 24px;
-    padding: 0 16px;
+    line-height: 32px;
+    text-align: center;
     cursor: pointer;
     transition: all .3s;
 }
 
-.operate .button:hover {
-    opacity: .85;
+.menu .menu-item:hover {
+    background-color: #efefef;
 }
 
 .container {
@@ -86,7 +86,6 @@ html, body {
 }
 
 .header .dot {
-    cursor: pointer;
     margin-right: 7px;
     position: relative;
     align-items: center;
@@ -118,6 +117,9 @@ html, body {
     flex: 1;
     background-color: var(--bg);
     overflow: auto;
+    background-size: cover;
+    background-position: center;
+    background-repeat: repeat;
 }
 
 .content::-webkit-scrollbar {
@@ -136,6 +138,10 @@ html, body {
     border-radius: 4px;
     overflow: hidden;
     background-size: cover;
+}
+
+.message .avatar-own {
+    cursor: pointer;
 }
 
 .message .text {

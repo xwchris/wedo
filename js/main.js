@@ -7,6 +7,8 @@
     const channel = new BroadcastChannel(chatId);
     console.log('channel build, chatId:', chatId, 'userId:', userId);
     let messages = [];
+    const defaultUser = { userId, name: '未命名', avatar: './images/avatar.jpg', bg: '' };
+    let users = {};
     let user = {};
 
     function contentScrollToBottom() {
@@ -17,22 +19,64 @@
         const next = { userId, message }
         channel.postMessage(JSON.stringify(next));
         messages.push(next);
-        renderMessage(message, true);
+        renderMessage(next);
     }
 
-    function renderMessage(message, isRight) {
+    function renderMessage(message) {
+        const isOwn = message.userId === userId;
+        const currentUser = users[message.userId] || defaultUser;
         const $m = document.createElement('div');
-        $m.setAttribute('class', `message ${isRight ? 'right' : ''}`);
+        $m.setAttribute('class', `message ${isOwn ? 'right' : ''}`);
         $m.innerHTML = `
-            <div class="avatar" style="background-image: url('${user.avatar}');"></div>
-            <div class="text">${message}</div>
+            <div class="avatar" style="background-image: url('${currentUser.avatar}');"></div>
+            <div class="text">${message.message}</div>
         `
         $('#content').appendChild($m);
         // 渲染消息后滚动到最底部
         contentScrollToBottom();
     }
 
+    function render() {
+        $('#content').innerHTML = '';
+        messages.forEach(renderMessage);
+    }
+
+    function imageRead(file, callback) {
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(file);
+        fileReader.onload = (e) => {
+            const image = e.target.result;
+            callback(image);
+        };
+    }
+
+    function updateBg() {
+        if (user.bg) {
+            $('#content').style.backgroundImage = `url('${user.bg}')`;
+        }
+    }
+
+
     function init() {
+        const storagePrefix = 'wedo';
+        const messageStorageId = `${storagePrefix}_chat_${chatId}_${userId}`;
+        const userStorageId = `${storagePrefix}_user`;
+
+        // 获取当前用户完整信息
+        const userRes = localStorage.getItem(userStorageId);
+        users = JSON.parse(userRes || '{}');
+        user = users[userId] || defaultUser;
+        $('#name').value = user.name;
+        console.log('current user', user);
+
+        function updateUser({ name, avatar, bg }) {
+            user.name = name || user.name;
+            user.avatar = avatar || user.avatar;
+            user.bg = bg || user.bg;
+            users[userId] = user;
+            localStorage.setItem(userStorageId, JSON.stringify(users));
+        }
+
         // 监听输入事件
         window.onkeyup = (e) => {
             const keyCode = e.keyCode;
@@ -49,19 +93,11 @@
             console.log('listen:', e.data);
             const message = JSON.parse(e.data);
             messages.push(message);
-            renderMessage(message.message, message.userId === userId);
+            renderMessage(message);
         }
-
-        const storagePrefix = 'wedo';
-        const messageStorageId = `${storagePrefix}_chat_${chatId}_${userId}`;
-        const userStorageId = `${storagePrefix}_user`;
         
 
         // 操作事件绑定
-        $('#dot').onclick = () => {
-            const shouldHiden = $('#operate').className.indexOf('hidden') === -1;
-            $('#operate').setAttribute('class', `operate ${shouldHiden ? 'hidden' : ''}`)
-        }
         $('#save').onclick = () => {
             localStorage.setItem(messageStorageId, JSON.stringify(messages));
             console.log("record save success");
@@ -74,27 +110,47 @@
         }
         $('#name').onchange = (e) => {
             const name = e.target.value;
-            user.name = name;
-            users[userId] = user;
-            localStorage.setItem(userStorageId, JSON.stringify(users));
-            console.log("name", name);
+            updateUser({ name });
         }
         $('#input').onfocus = () => {
             contentScrollToBottom();
         }
+        $('#avatar').onclick = (e) => {
+            $('#file').click();
+        }
+        $('#bg').onclick = () => {
+            $('#bgFile').click();
+        }
+        $('#file').onchange = (e) => {
+            imageRead(e.target.files[0], (url) => {
+                updateUser({ avatar: url });
+                render();
+            });
+        }
+        $('#bgFile').onchange = (e) => {
+            imageRead(e.target.files[0], (url) => {
+                updateUser({ bg: url });
+                updateBg(url);
+                render();
+            });
+        }
+        $('#root').oncontextmenu = (e) => {
+            const $menu = $('#menu');
+            $menu.style.display = 'block';
+            $menu.style.top = `${e.clientY + 2}px`;
+            $menu.style.left = `${e.clientX + 2}px`;
+            e.preventDefault();
+            return false;
+        }
+        document.onclick = () => {
+            $('#menu').style.display = 'none';
+        }
 
-
-        // 初始渲染
-        // 获取当前用户完整信息
-        const userRes = localStorage.getItem(userStorageId);
-        const users = JSON.parse(userRes || '{}');
-        user = users[userId] || { userId, name: '未命名', avatar: './images/avatar.jpg' };
-        $('#name').value = user.name;
-        console.log('current user', user);
         // 初始渲染消息
         const messagesRes = localStorage.getItem(messageStorageId)
         messages = JSON.parse(messagesRes || '[]');
-        messages.forEach(m => renderMessage(m.message, m.userId === userId));
+        render();
+        updateBg();
     }
 
     init();

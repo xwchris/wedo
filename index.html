@@ -9,11 +9,15 @@
 </head>
 <body>
     <div class="container">
-        <div class="operate hidden" id="operate">
-            <button id="save" class="button">保存记录</button>
-            <button id="clear" class="button">清空记录</button>
+        <input type="file" class="file" id="file" accept=".png, .jpg, .jpeg" />
+        <input type="file" class="file" id="bgFile" accept=".png, .jpg, .jpeg" />
+        <div class="menu" id="menu">
+            <div class="menu-item" id="avatar">更换头像</div>
+            <div class="menu-item" id="bg">更换背景</div>
+            <div class="menu-item" id="save">保存记录</div>
+            <div class="menu-item" id="clear">清空记录</div>
         </div>
-        <div class="wrapper">
+        <div class="wrapper" id="root">
             <div class="header">
                 <span class="arrow"></span>
                 <input class="name" id="name" />
