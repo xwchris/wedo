@@ -1,0 +1,208 @@
+
+:root {
+    --white: #F1EFF0;
+    --green: #A0EA71;
+    --bg: #EDEDED;
+    --border: #ddd;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+.operate {
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 20px;
+}
+
+.operate.hidden {
+    visibility: hidden;
+}
+
+.operate .button {
+    display: block;
+    margin-bottom: 12px;
+    padding: 0;
+    background-color: white;
+    border: 0;
+    font-size: 14px;
+    line-height: 24px;
+    height: 24px;
+    padding: 0 16px;
+    cursor: pointer;
+    transition: all .3s;
+}
+
+.operate .button:hover {
+    opacity: .85;
+}
+
+.container {
+    height: 100%;
+    background-color: #000000;
+}
+
+/* iphone xr 414×896 */
+.wrapper {
+    width: 414px;
+    height: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    padding: 0 23px 0 17px;
+    height: 48px;
+    background-color: var(--white);
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+}
+
+.header .arrow {
+    width: 10px;
+    height: 10px;
+    border-left: 1.5px solid black;
+    border-bottom: 1.5px solid black;
+    transform: rotate(45deg);
+    transform-origin: center;
+}
+
+.header .name {
+    flex: 1;
+    text-align: center;
+    background-color: transparent;
+    border: 0;
+    outline: 0;
+    margin: 0 30px;
+}
+
+.header .dot {
+    cursor: pointer;
+    margin-right: 7px;
+    position: relative;
+    align-items: center;
+    height: 4px;
+    width: 4px;
+    margin: 0 3px;
+    border-radius: 50%;
+    background-color: black;
+}
+.header .dot::after, .header .dot::before {
+    content: '';
+    position: absolute;
+    height: 4px;
+    width: 4px;
+    border-radius: 50%;
+    background-color: black;
+}
+
+.header .dot::after {
+    right: -7px;
+}
+
+.header .dot::before {
+    left: -7px;
+}
+
+.content {
+    padding: 10px;
+    flex: 1;
+    background-color: var(--bg);
+    overflow: auto;
+}
+
+.content::-webkit-scrollbar {
+    display: none;
+}
+
+.content .message {
+    margin-bottom: 16px;
+    min-height: 40px;
+    display: flex;
+}
+
+.message .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    overflow: hidden;
+    background-size: cover;
+}
+
+.message .text {
+    position: relative;
+    margin: 0 12px;
+    padding: 10px;
+    min-height: 40px;
+    background-color: white;
+    font-size: 16px;
+    line-height: 20px;
+    max-width: 285px;
+    border-radius: 4px;
+}
+
+.message .text::before {
+    content: '';
+    width: 11px;
+    height: 11px;
+    border-radius: 2px;
+    transform-origin: center;
+    transform: rotate(45deg);
+    position: absolute;
+    top: 14px;
+    left: -4px;
+    background-color: white;
+}
+
+.content .right {
+    flex-direction: row-reverse;
+}
+
+.right .text {
+    background-color: var(--green);
+}
+
+.right .text::before {
+    right: -4px;
+    left: unset;
+    transform: (-45deg);
+    background-color: var(--green);
+}
+
+.footer {
+    display: flex;
+    align-items: center;
+    padding: 10px 16px;
+    background-color: var(--white);
+    border-top: 1px solid var(--border);
+}
+
+.footer .input {
+    margin: 0 10px;
+    flex: 1;
+    padding: 0 10px;
+    font-size: 16px;
+    line-height: 22px;
+    background-color: white;
+    border: 0;
+    border-radius: 4px;
+    height: 40px;
+}
+
+.footer .icon {
+    width: 28px;
+    height: 28px;
+}
+
+.footer .emoji {
+    margin-right: 12px;
+}

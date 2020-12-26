@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedo</title>
+    <link rel="stylesheet" href="./css/normalize.css" />
+    <link rel="stylesheet" href="./css/main.css" />
+</head>
+<body>
+    <div class="container">
+        <div class="operate hidden" id="operate">
+            <button id="save" class="button">保存记录</button>
+            <button id="clear" class="button">清空记录</button>
+        </div>
+        <div class="wrapper">
+            <div class="header">
+                <span class="arrow"></span>
+                <input class="name" id="name" />
+                <span class="dot" id="dot"></span>
+            </div>
+            <div class="content" id="content"></div>
+            <div class="footer">
+                <img class="audio icon" src="./images/audio.svg" />
+                <input class="input" id="input" />
+                <img class="emoji icon" src="./images/emoji.svg" />
+                <img class="more icon" src="./images/more.svg" />
+            </div>
+        </div>
+    </div>
+    <script src="./js/main.js"></script>
+</body>
+</html>
