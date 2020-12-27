@@ -11,6 +11,10 @@
     let users = {};
     let user = {};
 
+    function random() {
+        return Math.random().toString(36).slice(-6);
+    }
+
     function contentScrollToBottom() {
         $('#content').scroll(0, Number.MAX_SAFE_INTEGER);
     }
@@ -36,9 +40,25 @@
         contentScrollToBottom();
     }
 
+    function renderUser(user) {
+        const isOwn = user.userId === userId;
+        const $a = document.createElement('a');
+        $a.setAttribute('class', `user-item ${isOwn ? 'current' : ''}`);
+        $a.setAttribute('style', `background-image: url('${user.avatar}')`);
+        $a.setAttribute('target', '_blank');
+        $a.setAttribute('id', user.userId);
+        $a.setAttribute('href', `/chat.html?chatId=${chatId}&userId=${user.userId}`);
+        $('#users').insertBefore($a, $('#add-user'));
+    }
+
     function render() {
         $('#content').innerHTML = '';
         messages.forEach(renderMessage);
+    }
+
+    function renderUsers() {
+        $('#users').innerHTML = '<a class="user-item user-add" id="add-user"></a>';
+        Object.keys(users).forEach(userId => renderUser(users[userId]));
     }
 
     function imageRead(file, callback) {
@@ -60,12 +80,14 @@
     function init() {
         const storagePrefix = 'wedo';
         const messageStorageId = `${storagePrefix}_chat_${chatId}_${userId}`;
-        const userStorageId = `${storagePrefix}_user`;
+        const userStorageId = `${storagePrefix}_user_${chatId}`;
 
         // 获取当前用户完整信息
         const userRes = localStorage.getItem(userStorageId);
         users = JSON.parse(userRes || '{}');
         user = users[userId] || defaultUser;
+        users[userId] = user;
+        localStorage.setItem(userStorageId, JSON.stringify(users));
         $('#name').value = user.name;
         console.log('current user', user);
 
@@ -125,6 +147,7 @@
             imageRead(e.target.files[0], (url) => {
                 updateUser({ avatar: url });
                 render();
+                $(`#${userId}`).setAttribute('style', `background-image: url('${url}')`);
             });
         }
         $('#bgFile').onchange = (e) => {
@@ -150,7 +173,15 @@
         const messagesRes = localStorage.getItem(messageStorageId)
         messages = JSON.parse(messagesRes || '[]');
         render();
+        renderUsers();
         updateBg();
+
+        $('#add-user').onclick = (e) => {
+            const newUser = { ...defaultUser, userId: random() }
+            users[newUser.userId] = newUser;
+            localStorage.setItem(userStorageId, JSON.stringify(users));
+            renderUser(newUser);
+        }
     }
 
     init();
