@@ -45,9 +45,11 @@
         const $a = document.createElement('a');
         $a.setAttribute('class', `user-item ${isOwn ? 'current' : ''}`);
         $a.setAttribute('style', `background-image: url('${user.avatar}')`);
-        $a.setAttribute('target', '_blank');
         $a.setAttribute('id', user.userId);
-        $a.setAttribute('href', `/chat.html?chatId=${chatId}&userId=${user.userId}`);
+        if (!isOwn) {
+            $a.setAttribute('target', '_blank');
+            $a.setAttribute('href', `/chat.html?chatId=${chatId}&userId=${user.userId}`);
+        }
         $('#users').insertBefore($a, $('#add-user'));
     }
 
