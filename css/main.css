@@ -89,6 +89,7 @@ body {
     top: 0;
     left: 0;
     display: none;
+    z-index: 1;
     width: 100px;
     background-color: white;
     border-radius: 4px;
